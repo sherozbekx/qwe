@@ -6,12 +6,8 @@ const mongoose = require('mongoose')
 exports.create = async (req, res, next) => {
     try {   
         const { NAME, AGE, ADDRESS, RATING } = req.body;
-        if(
-            NAME == undefined || !NAME ||
-            AGE == undefined || !AGE ||
-            ADDRESS == undefined || !ADDRESS ||
-            RATING == undefined || !RATING
-         ) {
+        if( NAME == undefined || !NAME || AGE == undefined || !AGE || ADDRESS == undefined || !ADDRESS || RATING == undefined || !RATING ) 
+        {
             res.json({ status: false })
         }   
         else {
@@ -34,21 +30,11 @@ exports.search = async (req, res, next) => {
         let dts = [];
         const { name, address, rating, age, status } = req.query;
 
-        if (name != "all") {
-            dts.push({ $match: { name: { $regex: name, $options: "i" } } });
-        }
-        if (address != "all") {
-            dts.push({ $match: { address: { $regex: address, $options: "i" } } });
-        }
-        if (age != "all") {
-            dts.push({ $match: { age: { $regex: age, $options: "i" } } });
-        }
-        if (rating != "all") {
-            dts.push({ $match: { rating: { $regex: rating, $options: "i" } } });
-        }
-        if (status != "all") {
-            dts.push({ $match: { status: { $in: status } } });
-        }
+        if (name != "all") { dts.push({ $match: { name: { $regex: name, $options: "i" } } }) }
+        if (address != "all") { dts.push({ $match: { address: { $regex: address, $options: "i" } } }) }
+        if (age != "all") { dts.push({ $match: { age: { $regex: age, $options: "i" } } }) }
+        if (rating != "all") { dts.push({ $match: { rating: { $regex: rating, $options: "i" } } }) }
+        if (status != "all") { dts.push({ $match: { status: { $in: status } } }) }
 
         const data = await CategoryModel.aggregate(dts)
         res.json({
